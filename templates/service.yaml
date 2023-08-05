@@ -6,10 +6,10 @@ metadata:
   {{- if $.Values.service.name }}
   name: {{ $.Values.service.name | quote }}
   {{- else }}
-  name: {{ $.Release.Name | quote }}
+  name: {{ $.Values.name | quote }}
   {{- end }}
   labels:
-    "app.kubernetes.io/name": {{ $.Release.Name | quote }}
+    "app.kubernetes.io/name": {{ $.Values.name | quote }}
     "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
     {{- range $labelName, $labelValue := $.Values.service.labels }}
     {{ $labelName | quote }}: {{ $labelValue | quote }}
@@ -80,7 +80,7 @@ spec:
     {{- end }}
   selector:
     "app.kubernetes.io/name": "devspace-app"
-    "app.kubernetes.io/component": {{ $.Release.Name | quote }}
+    "app.kubernetes.io/component": {{ $.Values.name | quote }}
   type: {{ $.Values.service.type | default "ClusterIP" | quote }}
 {{- end }}
 {{- end }}

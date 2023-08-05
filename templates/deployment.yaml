@@ -18,10 +18,10 @@ apiVersion: apps/v1
 {{- end }}
 kind: {{ $kind }}
 metadata:
-  name: {{ $.Release.Name | quote }}
+  name: {{ $.Values.name | quote }}
   labels:
     "app.kubernetes.io/name": "devspace-app"
-    "app.kubernetes.io/component": {{ $.Release.Name | quote }}
+    "app.kubernetes.io/component": {{ $.Values.name | quote }}
     "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
     {{- range $labelName, $labelValue := $.Values.labels }}
     {{ $labelName | quote }}: {{ $labelValue | quote }}
@@ -61,13 +61,13 @@ spec:
   {{- if $.Values.serviceName }}
   serviceName: {{ $.Values.serviceName | quote }}
   {{- else }}
-  serviceName: "{{ $.Release.Name }}-headless"
+  serviceName: "{{ $.Values.name }}-headless"
   {{- end }}
   {{- end }}
   selector:
     matchLabels:
       "app.kubernetes.io/name": "devspace-app"
-      "app.kubernetes.io/component": {{ $.Release.Name | quote }}
+      "app.kubernetes.io/component": {{ $.Values.name | quote }}
       "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
       {{- range $labelName, $labelValue := $.Values.labels }}
       {{ $labelName | quote }}: {{ $labelValue | quote }}
@@ -76,7 +76,7 @@ spec:
     metadata:
       labels:
         "app.kubernetes.io/name": "devspace-app"
-        "app.kubernetes.io/component": {{ $.Release.Name | quote }}
+        "app.kubernetes.io/component": {{ $.Values.name | quote }}
         "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
         {{- range $labelName, $labelValue := $.Values.labels }}
         {{ $labelName | quote }}: {{ $labelValue | quote }}
@@ -482,7 +482,7 @@ spec:
       name: {{ $volume.name | quote }}
       labels:
         "app.kubernetes.io/name": "devspace-app"
-        "app.kubernetes.io/component": {{ $.Release.Name | quote }}
+        "app.kubernetes.io/component": {{ $.Values.name | quote }}
         "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
         {{- range $labelName, $labelValue := $volume.labels }}
         {{ $labelName | quote }}: {{ $labelValue | quote }}
@@ -528,10 +528,10 @@ metadata:
   {{- if $.Values.serviceName }}
   name: {{ $.Values.serviceName | quote }}
   {{- else }}
-  name: "{{ $.Release.Name }}-headless"
+  name: "{{ $.Values.name }}-headless"
   {{- end }}
   labels:
-    "app.kubernetes.io/name": {{ $.Release.Name | quote }}
+    "app.kubernetes.io/name": {{ $.Values.name | quote }}
     "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
     {{- range $labelName, $labelValue := $.Values.labels }}
     {{ $labelName | quote }}: {{ $labelValue | quote }}
@@ -549,7 +549,7 @@ spec:
   clusterIP: None
   selector:
     "app.kubernetes.io/name": "devspace-app"
-    "app.kubernetes.io/component": {{ $.Release.Name | quote }}
+    "app.kubernetes.io/component": {{ $.Values.name | quote }}
     "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
     {{- range $labelName, $labelValue := $.Values.labels }}
     {{ $labelName | quote }}: {{ $labelValue | quote }}

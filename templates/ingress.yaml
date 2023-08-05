@@ -11,7 +11,7 @@
   {{- if $.Values.service.name }}
     {{- $tlsSecretName = (printf "tls-%s" $.Values.service.name) }}
   {{- else }}
-    {{- $tlsSecretName = (printf "tls-%s" $.Release.Name) }}
+    {{- $tlsSecretName = (printf "tls-%s" $.Values.name) }}
   {{- end }}
   {{- end }}
   {{- else }}
@@ -31,12 +31,12 @@ metadata:
   {{- if $.Values.service.name }}
   name: {{ $.Values.service.name | quote }}
   {{- else }}
-  name: {{ $.Release.Name | quote }}
+  name: {{ $.Values.name | quote }}
   {{- end }}
   {{- end }}
   {{- end }}
   labels:
-    "app.kubernetes.io/name": {{ $.Release.Name | quote }}
+    "app.kubernetes.io/name": {{ $.Values.name | quote }}
     "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
     {{- range $labelName, $labelValue := $.Values.ingress.labels }}
     {{ $labelName | quote }}: {{ $labelValue | quote }}
@@ -95,7 +95,7 @@ spec:
   {{- if $.Values.service.name }}
   {{- $svcName = $.Values.service.name -}}
   {{- else }}
-  {{- $svcName = $.Release.Name -}}
+  {{- $svcName = $.Values.name -}}
   {{- end }}
   {{- end }}
   - host: {{ $ingressRule.host | quote }}

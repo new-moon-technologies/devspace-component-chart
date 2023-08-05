@@ -17,10 +17,10 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ $.Release.Name | quote }}
+  name: {{ $.Values.name | quote }}
   labels:
     "app.kubernetes.io/name": "devspace-app"
-    "app.kubernetes.io/component": {{ $.Release.Name | quote }}
+    "app.kubernetes.io/component": {{ $.Values.name | quote }}
     "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
     {{- range $labelName, $labelValue := $.Values.labels }}
     {{ $labelName | quote }}: {{ $labelValue | quote }}
@@ -34,7 +34,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: {{ $kind }}
-    name: {{ $.Release.Name | quote }}
+    name: {{ $.Values.name | quote }}
   minReplicas: {{ $.Values.replicas }}
   maxReplicas: {{ $.Values.autoScaling.horizontal.maxReplicas }}
   metrics:

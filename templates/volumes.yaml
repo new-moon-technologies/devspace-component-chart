@@ -18,7 +18,7 @@ metadata:
   name: {{ $volume.name | quote }}
   labels:
     "app.kubernetes.io/name": "devspace-app"
-    "app.kubernetes.io/component": {{ $.Release.Name | quote }}
+    "app.kubernetes.io/component": {{ $.Values.name | quote }}
     "app.kubernetes.io/managed-by": {{ $.Release.Service | quote }}
     {{- range $labelName, $labelValue := $volume.labels }}
     {{ $labelName | quote }}: {{ $labelValue | quote }}
